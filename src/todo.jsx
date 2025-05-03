@@ -3,8 +3,10 @@ import "./index.css";
 import { TodoForm } from "./TodoForm";
 import { TodoList } from "./TodoList";
 import { TodoDate } from "./TodoDate";
+import { getLocalStoragedata, setLocalStorageData } from "./TodoLocalStorage";
+
 const Todo = () => {
-  const [task, setTask] = useState([]);
+  const [task, setTask] = useState(() => getLocalStoragedata());
 
   const handleFormSubmit = (input) => {
     const { id, content, checked } = input;
@@ -24,7 +26,7 @@ const Todo = () => {
   const handleClear = () => {
     setTask([]);
   };
-
+  setLocalStorageData(task);
   const handleChecked = (value) => {
     const updatedTask = task.map((curTask) => {
       if (curTask.content === value) {
