@@ -7,7 +7,7 @@ export const TodoForm = ({ onAddTodo }) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     onAddTodo(input);
-    setInput("");
+    setInput({id:"",content:"",checked:false});
   };
   return (
     <section className="form">

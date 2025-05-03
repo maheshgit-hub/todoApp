@@ -9,18 +9,31 @@ const Todo = () => {
   const handleFormSubmit = (input) => {
     const { id, content, checked } = input;
     if (!content) return;
-    if (task.includes(input)) return;
+    const ifToDoContentMatched = task.find(
+      (curTask) => curTask.content === content
+    );
+    if (ifToDoContentMatched) return;
 
-    setTask((prev) => [...prev, input]);
+    setTask((prev) => [...prev, { id, content, checked }]);
   };
 
   const handleDelete = (value) => {
-    console.log(value);
-    const updatedTask = task.filter((curTask) => curTask != value);
+    const updatedTask = task.filter((curTask) => curTask.content != value);
     setTask(updatedTask);
   };
   const handleClear = () => {
     setTask([]);
+  };
+
+  const handleChecked = (value) => {
+    const updatedTask = task.map((curTask) => {
+      if (curTask.content === value) {
+        return { ...curTask, checked: !curTask.checked };
+      } else {
+        return curTask;
+      }
+    });
+    setTask(updatedTask);
   };
   return (
     <section className="todo-container">
@@ -31,12 +44,14 @@ const Todo = () => {
       <TodoForm onAddTodo={handleFormSubmit} />
       <section className="myUnOrdList">
         <ul>
-          {task.map((curTask, index) => {
+          {task.map((curTask) => {
             return (
               <TodoList
-                key={index}
-                data={curTask}
+                key={curTask.id}
+                data={curTask.content}
+                checked={curTask.checked}
                 onHandleDelete={handleDelete}
+                onHandleChecked={handleChecked}
               />
             );
           })}
